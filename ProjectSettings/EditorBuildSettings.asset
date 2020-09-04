@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/John Lemon's Haunted Jaunt.unity
+    guid: 7981d47f55218ec4cb4b31bcbf5fdaba
   m_configObjects: {}
