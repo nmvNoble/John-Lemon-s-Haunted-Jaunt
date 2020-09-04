@@ -13,18 +13,23 @@ public class GameEnding : MonoBehaviour
     [SerializeField]
     private CanvasGroup _exitBGImageCanvasGroup;
     [SerializeField]
+    private AudioSource _exitAudio;
+    [SerializeField]
     private CanvasGroup _caughtBGImageCanvasGroup;
+    [SerializeField]
+    private AudioSource _caughtAudio;
 
     bool m_IsPlayerAtExit;
     bool m_IsPlayerCaught;
     float m_Timer; 
+    bool m_HasAudioPlayed;
 
     void Update()
     {
         if (m_IsPlayerAtExit)
-            EndLevel(_exitBGImageCanvasGroup, false);
+            EndLevel(_exitBGImageCanvasGroup, false, _exitAudio);
         else if (m_IsPlayerCaught)
-            EndLevel(_caughtBGImageCanvasGroup, true);
+            EndLevel(_caughtBGImageCanvasGroup, true, _caughtAudio);
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,10 +43,17 @@ public class GameEnding : MonoBehaviour
         m_IsPlayerCaught = true;
     }
 
-    void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart)
+    void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart, AudioSource audioSource)
     {
+        if (!m_HasAudioPlayed)
+        {
+            audioSource.Play(); 
+            m_HasAudioPlayed = true;
+        }
+
         m_Timer += Time.deltaTime;
         imageCanvasGroup.alpha = m_Timer / fadeDuration;
+
         if (m_Timer > fadeDuration + displayImageDuration)
         {
             if (doRestart)
